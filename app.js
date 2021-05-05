@@ -3,9 +3,10 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const errorHandler = require('./middlewares/error-handler');
+const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not-found-error');
 
-const { createUser } = require('./controllers/users');
+const { createUser, login } = require('./controllers/users');
 
 
 mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
@@ -24,6 +25,9 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.post('/signup', createUser);
+app.post('/signin', login);
+
+app.use(auth);
 
 app.use('/', (req, res, next) => {
   next(new NotFoundError('Неверный адрес запроса'));
