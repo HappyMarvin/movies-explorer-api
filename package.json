@@ -1,7 +1,7 @@
 {
-  "name": "express-mesto",
+  "name": "movies-api",
   "version": "1.0.0",
-  "description": "## Директории",
+  "description": "Дипломная работа",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HappyMarvin/express-mesto.git"
+    "url": "git+https://github.com/HappyMarvin/movies-explorer-api.git"
   },
   "author": "Vladimir Sorokin",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/HappyMarvin/express-mesto/issues"
+    "url": "https://github.com/HappyMarvin/movies-explorer-api/issues"
   },
-  "homepage": "https://github.com/HappyMarvin/express-mesto#readme",
+  "homepage": "https://github.com/HappyMarvin/movies-explorer-api#readme",
   "devDependencies": {
     "eslint": "^7.22.0",
     "eslint-config-airbnb-base": "^14.2.1",
