@@ -5,6 +5,8 @@ const cors = require('cors');
 const errorHandler = require('./middlewares/error-handler');
 const NotFoundError = require('./errors/not-found-error');
 
+const { createUser } = require('./controllers/users');
+
 
 mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
   useNewUrlParser: true,
@@ -21,6 +23,7 @@ app.use(cors());
 
 app.use(bodyParser.json());
 
+app.post('/signup', createUser);
 
 app.use('/', (req, res, next) => {
   next(new NotFoundError('Неверный адрес запроса'));
