@@ -29,6 +29,8 @@ app.post('/signin', login);
 
 app.use(auth);
 
+app.use('/users', require('./routes/users'));
+
 app.use('/', (req, res, next) => {
   next(new NotFoundError('Неверный адрес запроса'));
 });

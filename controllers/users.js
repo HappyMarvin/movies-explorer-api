@@ -6,6 +6,7 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 const BadRequestError = require('../errors/bad-request-error');
 const UnauthorizedError = require('../errors/unauthorized-error')
 const ConflictError = require('../errors/conflict-error');
+const NotFoundError = require('../errors/not-found-error');
 
 module.exports.createUser = (req, res, next) => {
   const {
@@ -61,4 +62,46 @@ module.exports.login = (req, res, next) => {
       res.send({ token });
     })
     .catch(next);
+};
+
+module.exports.getUser = (req, res, next) => {
+  User.findOne({ _id: req.user._id })
+    .then((user) => {
+      if (!user) {
+        next(new NotFoundError('Пользователь не найден'));
+      } else {
+        res.send(user);
+      }
+    })
+    .catch(next);
+};
+
+module.exports.updateUser = (req, res, next) => {
+  const { name, email } = req.body;
+  User.findByIdAndUpdate(
+    req.user._id,
+    { name, email },
+    {
+      new: true,
+      runValidators: true,
+    },
+  )
+    .then((user) => {
+      if (!user) {
+        next(new NotFoundError('Пользователь не найден'));
+      } else {
+        res.send(user);
+      }
+    })
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        next(new BadRequestError('Неверный идентификатор пользователя'));
+      } else if (err.name === 'ValidationError') {
+        next(new BadRequestError('Переданы некорректные данные'));
+      } else if (err.code === 11000) {
+        next(new ConflictError('Пользователь с таким email уже существует'));
+      } else {
+        next(err);
+      }
+    });
 };
