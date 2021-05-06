@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const { limiter } = require('./middlewares/rate-limiter');
 const errorHandler = require('./middlewares/error-handler');
 const auth = require('./middlewares/auth');
 const { errors } = require('celebrate');
@@ -22,6 +23,9 @@ mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
 const { PORT = 3001 } = process.env;
 const app = express();
 
+
+app.set('trust proxy', 'loopback');
+app.use(limiter);
 app.use(cors());
 
 app.use(bodyParser.json());
