@@ -4,8 +4,10 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const errorHandler = require('./middlewares/error-handler');
 const auth = require('./middlewares/auth');
+const { errors } = require('celebrate');
+const { validateSignUpBody, validateSignInBody } = require('./middlewares/validations');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const NotFoundError = require('./errors/not-found-error');
-
 const { createUser, login } = require('./controllers/users');
 
 
@@ -23,9 +25,11 @@ const app = express();
 app.use(cors());
 
 app.use(bodyParser.json());
+app.use(requestLogger);
 
-app.post('/signup', createUser);
-app.post('/signin', login);
+
+app.post('/signup', validateSignUpBody, createUser);
+app.post('/signin', validateSignInBody, login);
 
 app.use(auth);
 
@@ -36,7 +40,8 @@ app.use('/', (req, res, next) => {
   next(new NotFoundError('Неверный адрес запроса'));
 });
 
-
+app.use(errorLogger);
+app.use(errors());
 app.use(errorHandler);
 app.listen(PORT, () => {
 
