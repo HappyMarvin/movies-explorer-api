@@ -30,6 +30,7 @@ app.post('/signin', login);
 app.use(auth);
 
 app.use('/users', require('./routes/users'));
+app.use('/movies', require('./routes/movies'));
 
 app.use('/', (req, res, next) => {
   next(new NotFoundError('Неверный адрес запроса'));
