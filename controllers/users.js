@@ -28,9 +28,10 @@ module.exports.createUser = (req, res, next) => {
             NODE_ENV === 'production' ? JWT_SECRET : 'my-secret',
             {
               expiresIn: '7d',
-            })
-          res.cookie('token', token)
-          res.status(201).send(user.toJSON())
+            },
+          );
+          res.cookie('token', token);
+          res.status(201).send(user.toJSON());
         })
         .catch((err) => {
           if (err.name === 'ValidationError') {
@@ -68,8 +69,8 @@ module.exports.login = (req, res, next) => {
           expiresIn: '7d',
         },
       );
-      res.cookie('token', token)
-      res.send({ message: "Авторизация успешна"});
+      res.cookie('token', token);
+      res.send({ message: 'Авторизация успешна' });
     })
     .catch(next);
 };
