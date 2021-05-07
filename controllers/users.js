@@ -22,7 +22,16 @@ module.exports.createUser = (req, res, next) => {
       User.create({
         name, email, password: hash,
       })
-        .then((user) => res.status(201).send(user.toJSON()))
+        .then((user) => {
+          const token = jwt.sign(
+            { _id: user._id },
+            NODE_ENV === 'production' ? JWT_SECRET : 'my-secret',
+            {
+              expiresIn: '7d',
+            })
+          res.cookie('token', token)
+          res.status(201).send(user.toJSON())
+        })
         .catch((err) => {
           if (err.name === 'ValidationError') {
             next(new BadRequestError('Переданы некорректные данные'));
@@ -59,9 +68,14 @@ module.exports.login = (req, res, next) => {
           expiresIn: '7d',
         },
       );
-      res.send({ token });
+      res.cookie('token', token)
+      res.send({ message: "Авторизация успешна"});
     })
     .catch(next);
+};
+
+module.exports.logout = (req, res) => {
+  res.clearCookie('token').send({ message: 'Выход выполнен' });
 };
 
 module.exports.getUser = (req, res, next) => {

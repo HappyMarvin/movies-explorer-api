@@ -9,7 +9,8 @@ const auth = require('./middlewares/auth');
 const { validateSignUpBody, validateSignInBody } = require('./middlewares/validations');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const NotFoundError = require('./errors/not-found-error');
-const { createUser, login } = require('./controllers/users');
+const { createUser, login, logout } = require('./controllers/users');
+const cookieParser = require('cookie-parser')
 
 mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
   useNewUrlParser: true,
@@ -31,7 +32,9 @@ app.use(requestLogger);
 
 app.post('/signup', validateSignUpBody, createUser);
 app.post('/signin', validateSignInBody, login);
+app.get('/signout', validateSignInBody, logout);
 
+app.use(cookieParser())
 app.use(auth);
 
 app.use('/users', require('./routes/users'));
