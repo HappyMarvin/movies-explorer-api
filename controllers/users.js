@@ -1,10 +1,11 @@
 const bcrypt = require('bcryptjs');
-const User = require('../models/user');
 const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 require('dotenv').config();
+
 const { NODE_ENV, JWT_SECRET } = process.env;
 const BadRequestError = require('../errors/bad-request-error');
-const UnauthorizedError = require('../errors/unauthorized-error')
+const UnauthorizedError = require('../errors/unauthorized-error');
 const ConflictError = require('../errors/conflict-error');
 const NotFoundError = require('../errors/not-found-error');
 
@@ -13,8 +14,8 @@ module.exports.createUser = (req, res, next) => {
     name, email, password,
   } = req.body;
   if (!password) {
-    next(new BadRequestError('Пароль не может быть пустым'))
-    return
+    next(new BadRequestError('Пароль не может быть пустым'));
+    return;
   }
   bcrypt.hash(password, 10)
     .then((hash) => {
@@ -51,7 +52,6 @@ module.exports.login = (req, res, next) => {
         });
     })
     .then((user) => {
-      console.log(user._id)
       const token = jwt.sign(
         { _id: user._id },
         NODE_ENV === 'production' ? JWT_SECRET : 'my-secret',

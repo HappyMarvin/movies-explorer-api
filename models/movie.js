@@ -27,15 +27,15 @@ const movieSchema = new mongoose.Schema({
     minlength: 1,
   },
   image: {
-    required:true,
+    required: true,
     type: mongoose.SchemaTypes.Url,
   },
   trailer: {
-    required:true,
+    required: true,
     type: mongoose.SchemaTypes.Url,
   },
   thumbnail: {
-    required:true,
+    required: true,
     type: mongoose.SchemaTypes.Url,
   },
   owner: {
@@ -57,8 +57,8 @@ const movieSchema = new mongoose.Schema({
     required: true,
     minlength: 1,
   },
-})
+});
 
 movieSchema.index({ movieId: 1, owner: 1 }, { unique: true });
 
-module.exports = mongoose.model("movie", movieSchema);
+module.exports = mongoose.model('movie', movieSchema);

@@ -21,12 +21,12 @@ const userSchema = new mongoose.Schema({
     required: true,
     select: false,
   },
-})
+});
 
 userSchema.methods.toJSON = function toJSON() {
   const obj = this.toObject();
   delete obj.password;
   return obj;
-}
+};
 
 module.exports = mongoose.model('user', userSchema);
