@@ -7,10 +7,12 @@ const cookieParser = require('cookie-parser');
 const { limiter } = require('./middlewares/rate-limiter');
 const errorHandler = require('./middlewares/error-handler');
 const routes = require('./routes');
+require('dotenv').config();
+const { PORT = 3000, DB = 'mongodb://localhost:27017/bitfilmsdb' } = process.env;
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
+mongoose.connect(DB, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
@@ -18,7 +20,7 @@ mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
   useUnifiedTopology: true,
 });
 
-const { PORT = 3000 } = process.env;
+
 const app = express();
 
 app.set('trust proxy', 'loopback');
