@@ -6,11 +6,9 @@ const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
 const { limiter } = require('./middlewares/rate-limiter');
 const errorHandler = require('./middlewares/error-handler');
-const auth = require('./middlewares/auth');
-const { validateSignUpBody, validateSignInBody } = require('./middlewares/validations');
+const routes = require('./routes');
+
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const NotFoundError = require('./errors/not-found-error');
-const { createUser, login, logout } = require('./controllers/users');
 
 mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
   useNewUrlParser: true,
@@ -28,21 +26,10 @@ app.use(limiter);
 app.use(cors());
 
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(requestLogger);
 
-app.post('/signup', validateSignUpBody, createUser);
-app.post('/signin', validateSignInBody, login);
-app.get('/signout', validateSignInBody, logout);
-
-app.use(cookieParser());
-app.use(auth);
-
-app.use('/users', require('./routes/users'));
-app.use('/movies', require('./routes/movies'));
-
-app.use('/', (req, res, next) => {
-  next(new NotFoundError('Неверный адрес запроса'));
-});
+app.use(routes);
 
 app.use(errorLogger);
 app.use(errors());

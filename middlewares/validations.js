@@ -40,6 +40,25 @@ module.exports.validateSignUpBody = celebrate({
   }),
 });
 
+module.exports.validateUpdateUser = celebrate({
+  body: Joi.object().keys({
+    name: Joi.string().required().min(2).max(30)
+      .messages({
+        'string.empty': 'Имя не может быть пустым',
+        'string.min': 'Минимальная длина имени - 2 символа',
+        'string.max': 'Максимальная длина имени - 30 символов',
+        'string.base': 'Имя должно быть строкой',
+      }),
+    email: Joi.string().required().email().messages({
+      'string.empty': 'Поле email не может быть пустым',
+      'string.email': 'Вы ввели невалидный email',
+      'string.base': 'Поле email должно быть строкой',
+    }),
+  }).messages({
+    'any.required': 'Поле {#label} обязательно',
+  }),
+});
+
 module.exports.validateMovieBody = celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
