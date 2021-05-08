@@ -4,11 +4,14 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
 const { limiter } = require('./middlewares/rate-limiter');
 const errorHandler = require('./middlewares/error-handler');
 const routes = require('./routes');
 require('dotenv').config();
-const { PORT = 3000, DB = 'mongodb://localhost:27017/bitfilmsdb' } = process.env;
+
+const { NODE_ENV } = process.env;
+const { PORT, DB } = NODE_ENV === 'production' ? process.env : require('./constants/config');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
@@ -20,12 +23,12 @@ mongoose.connect(DB, {
   useUnifiedTopology: true,
 });
 
-
 const app = express();
 
 app.set('trust proxy', 'loopback');
 app.use(limiter);
 app.use(cors());
+app.use(helmet());
 
 app.use(bodyParser.json());
 app.use(cookieParser());

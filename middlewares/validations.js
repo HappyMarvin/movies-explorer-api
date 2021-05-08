@@ -1,19 +1,20 @@
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
+const { errorMessages } = require('../constants/constants');
 
 module.exports.validateSignInBody = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email().messages({
-      'string.empty': 'поле email не может быть пустым',
-      'string.email': 'Вы ввели невалидный email',
-      'string.base': 'Поле email должно быть строкой',
+      'string.empty': errorMessages.emptyEmail,
+      'string.email': errorMessages.invalidEmail,
+      'string.base': errorMessages.emailNoString,
     }),
     password: Joi.string().required().messages({
-      'string.empty': 'Пароль не может быть пустым',
-      'string.base': 'Пароль должен быть строкой',
+      'string.empty': errorMessages.emptyPass,
+      'string.base': errorMessages.passNoString,
     }),
   }).messages({
-    'any.required': 'Поле {#label} обязательно',
+    'any.required': errorMessages.anyRequired,
   }),
 });
 
@@ -21,22 +22,22 @@ module.exports.validateSignUpBody = celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30)
       .messages({
-        'string.empty': 'Имя не может быть пустым',
-        'string.min': 'Минимальная длина имени - 2 символа',
-        'string.max': 'Максимальная длина имени - 30 символов',
-        'string.base': 'Имя должно быть строкой',
+        'string.empty': errorMessages.nameEmpty,
+        'string.min': errorMessages.nameMin,
+        'string.max': errorMessages.nameMax,
+        'string.base': errorMessages.nameNoString,
       }),
     email: Joi.string().required().email().messages({
-      'string.empty': 'Поле email не может быть пустым',
-      'string.email': 'Вы ввели невалидный email',
-      'string.base': 'Поле email должно быть строкой',
+      'string.empty': errorMessages.emptyEmail,
+      'string.email': errorMessages.invalidEmail,
+      'string.base': errorMessages.emailNoString,
     }),
     password: Joi.string().required().messages({
-      'string.empty': 'Пароль не может быть пустым',
-      'string.base': 'Пароль должен быть строкой',
+      'string.empty': errorMessages.emptyPass,
+      'string.base': errorMessages.passNoString,
     }),
   }).messages({
-    'any.required': 'Поле {#label} обязательно',
+    'any.required': errorMessages.anyRequired,
   }),
 });
 
@@ -44,18 +45,18 @@ module.exports.validateUpdateUser = celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30)
       .messages({
-        'string.empty': 'Имя не может быть пустым',
-        'string.min': 'Минимальная длина имени - 2 символа',
-        'string.max': 'Максимальная длина имени - 30 символов',
-        'string.base': 'Имя должно быть строкой',
+        'string.empty': errorMessages.nameEmpty,
+        'string.min': errorMessages.nameMin,
+        'string.max': errorMessages.nameMax,
+        'string.base': errorMessages.nameNoString,
       }),
     email: Joi.string().required().email().messages({
-      'string.empty': 'Поле email не может быть пустым',
-      'string.email': 'Вы ввели невалидный email',
-      'string.base': 'Поле email должно быть строкой',
+      'string.empty': errorMessages.emptyEmail,
+      'string.email': errorMessages.invalidEmail,
+      'string.base': errorMessages.emailNoString,
     }),
   }).messages({
-    'any.required': 'Поле {#label} обязательно',
+    'any.required': errorMessages.anyRequired,
   }),
 });
 
@@ -69,29 +70,29 @@ module.exports.validateMovieBody = celebrate({
     movieId: Joi.number().required(),
     image: Joi.string().required().custom((value, helper) => {
       if (!validator.isURL(value, { require_protocol: true })) {
-        return helper.message('В поле {#label} передана невалидная ссылка');
+        return helper.message(errorMessages.anyNoUrl);
       }
       return value;
     }),
     trailer: Joi.string().required().custom((value, helper) => {
       if (!validator.isURL(value, { require_protocol: true })) {
-        return helper.message('В поле {#label} передана невалидная ссылка');
+        return helper.message(errorMessages.anyNoUrl);
       }
       return value;
     }),
     thumbnail: Joi.string().required().custom((value, helper) => {
       if (!validator.isURL(value, { require_protocol: true })) {
-        return helper.message('В поле {#label} передана невалидная ссылка');
+        return helper.message(errorMessages.anyNoUrl);
       }
       return value;
     }),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }).messages({
-    'any.required': 'Поле {#label} обязательно',
-    'string.empty': 'Поле {#label} не может быть пустым',
-    'string.base': 'Поле {#label} дожно быть строкой',
-    'number.base': 'Поле {#label} должно быть числовым',
+    'any.required': errorMessages.anyRequired,
+    'string.empty': errorMessages.anyEmpty,
+    'string.base': errorMessages.anyNoString,
+    'number.base': errorMessages.anyNoNumber,
   }),
 });
 
@@ -99,6 +100,6 @@ module.exports.validateMovieId = celebrate({
   params: Joi.object().keys({
     id: Joi.number().required(),
   }).messages({
-    'number.base': 'Передан невалидный id',
+    'number.base': errorMessages.movieInvalidId,
   }),
 });
