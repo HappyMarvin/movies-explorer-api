@@ -25,6 +25,7 @@ mongoose.connect(DB, {
 
 const app = express();
 
+app.use(requestLogger);
 app.set('trust proxy', 'loopback');
 app.use(limiter);
 app.use(cors());
@@ -32,7 +33,6 @@ app.use(helmet());
 
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(requestLogger);
 
 app.use(routes);
 
