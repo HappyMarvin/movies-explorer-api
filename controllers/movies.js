@@ -2,6 +2,7 @@ const Movie = require('../models/movie');
 const BadRequestError = require('../errors/bad-request-error');
 const NotFoundError = require('../errors/not-found-error');
 const ConflictError = require('../errors/conflict-error');
+const ForbiddenError = require('../errors/forbidden-error');
 const { errorMessages } = require('../constants/constants');
 
 module.exports.getMovies = (req, res, next) => {
@@ -56,12 +57,14 @@ module.exports.addMovie = (req, res, next) => {
 module.exports.deleteMovie = (req, res, next) => {
   const { id } = req.params;
   const userId = req.user._id;
-  Movie.findOne({ movieId: id, owner: userId })
+  Movie.findById(id)
     .then((movie) => {
       if (!movie) {
         next(new NotFoundError(errorMessages.movieNotFound));
+      } else if (!movie.owner.equals(userId)) {
+        next(new ForbiddenError(errorMessages.movieForbidden));
       } else {
-        Movie.deleteOne({ movieId: id })
+        Movie.deleteOne({ _id: id })
           .then((result) => res.send(result))
           .catch(next);
       }

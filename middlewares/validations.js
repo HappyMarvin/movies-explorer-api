@@ -1,6 +1,7 @@
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
 const { errorMessages } = require('../constants/constants');
+const { ObjectId } = require('mongoose').Types;
 
 module.exports.validateSignInBody = celebrate({
   body: Joi.object().keys({
@@ -98,8 +99,11 @@ module.exports.validateMovieBody = celebrate({
 
 module.exports.validateMovieId = celebrate({
   params: Joi.object().keys({
-    id: Joi.number().required(),
-  }).messages({
-    'number.base': errorMessages.movieInvalidId,
+    id: Joi.required().custom(((value, helpers) => {
+      if (ObjectId.isValid(value)) {
+        return value;
+      }
+      return helpers.message(errorMessages.movieInvalidId);
+    })),
   }),
 });

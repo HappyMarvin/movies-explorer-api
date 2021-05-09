@@ -1,7 +1,7 @@
 module.exports.errorMessages = {
   movieConflict: 'Фильм с таким id уже добавлен в базу пользователя',
   validError: 'Переданы некорректные данные',
-  movieNotFound: 'Фильм с указанным id не найден в базе пользователя',
+  movieNotFound: 'Фильм с указанным id не найден',
   movieInvalidId: 'Неверный идентификатор фильма',
   emptyPass: 'Пароль не может быть пустым',
   userConflict: 'Пользователь с таким email уже существует',
@@ -24,6 +24,7 @@ module.exports.errorMessages = {
   anyEmpty: 'Поле {#label} не может быть пустым',
   anyNoString: 'Поле {#label} дожно быть строкой',
   anyNoNumber: 'Поле {#label} должно быть числовым',
+  movieForbidden: 'Невозможно удалить чужой фильм',
 };
 
 module.exports.messages = {
