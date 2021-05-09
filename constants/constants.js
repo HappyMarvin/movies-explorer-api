@@ -30,4 +30,5 @@ module.exports.errorMessages = {
 module.exports.messages = {
   logout: 'Выход выполнен',
   auth: 'Авторизация успешна',
+  movieDelete: 'Фильм удалён из базы пользователя',
 };

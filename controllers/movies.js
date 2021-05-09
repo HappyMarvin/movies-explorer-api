@@ -3,7 +3,7 @@ const BadRequestError = require('../errors/bad-request-error');
 const NotFoundError = require('../errors/not-found-error');
 const ConflictError = require('../errors/conflict-error');
 const ForbiddenError = require('../errors/forbidden-error');
-const { errorMessages } = require('../constants/constants');
+const { errorMessages, messages } = require('../constants/constants');
 
 module.exports.getMovies = (req, res, next) => {
   const userId = req.user._id;
@@ -65,7 +65,7 @@ module.exports.deleteMovie = (req, res, next) => {
         next(new ForbiddenError(errorMessages.movieForbidden));
       } else {
         Movie.deleteOne({ _id: id })
-          .then((result) => res.send(result))
+          .then(() => res.send({ message: messages.movieDelete }))
           .catch(next);
       }
     })
