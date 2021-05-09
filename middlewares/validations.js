@@ -1,7 +1,7 @@
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
-const { errorMessages } = require('../constants/constants');
 const { ObjectId } = require('mongoose').Types;
+const { errorMessages } = require('../constants/constants');
 
 module.exports.validateSignInBody = celebrate({
   body: Joi.object().keys({

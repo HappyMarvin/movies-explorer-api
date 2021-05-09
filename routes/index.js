@@ -13,6 +13,7 @@ router.use(auth);
 router.get('/signout', validateSignInBody, logout);
 router.use('/users', require('./users'));
 router.use('/movies', require('./movies'));
+
 router.use('/', (req, res, next) => {
   next(new NotFoundError(errorMessages.urlNotFound));
 });
