@@ -1,0 +1,47 @@
+{
+  "name": "movies-api",
+  "version": "1.0.0",
+  "description": "Дипломная работа",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "lint": "npx eslint .",
+    "fix": "npx eslint . --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HappyMarvin/movies-explorer-api.git"
+  },
+  "author": "Vladimir Sorokin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HappyMarvin/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/HappyMarvin/movies-explorer-api#readme",
+  "devDependencies": {
+    "eslint": "^7.22.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "celebrate": "^14.0.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.2.6",
+    "express-winston": "^4.1.0",
+    "helmet": "^4.6.0",
+    "joi": "^17.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.2",
+    "mongoose-type-url": "^2.1.0",
+    "validator": "^13.6.0",
+    "winston": "^3.3.3"
+  }
+}
