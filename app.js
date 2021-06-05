@@ -28,7 +28,9 @@ const app = express();
 app.use(requestLogger);
 app.set('trust proxy', 'loopback');
 app.use(limiter);
-app.use(cors());
+app.use(cors({
+  credentials: true,
+}));
 app.use(helmet());
 
 app.use(bodyParser.json());
