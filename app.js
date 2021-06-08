@@ -29,7 +29,7 @@ app.use(requestLogger);
 app.set('trust proxy', 'loopback');
 app.use(limiter);
 app.use(cors({
-  origin: 'movies.happymarvin.ru',
+  origin: ['http://movies.happymarvin.ru', 'https://movies.happymarvin.ru', 'http://fr.localist.com:3000'],
   credentials: true,
 }));
 app.use(helmet());

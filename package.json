@@ -1,6 +1,6 @@
 {
   "name": "movies-api",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Дипломная работа",
   "main": "app.js",
   "scripts": {
@@ -8,7 +8,8 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "lint": "npx eslint .",
-    "fix": "npx eslint . --fix"
+    "fix": "npx eslint . --fix",
+    "deploy": "scp -r ./* diploma@84.252.137.75:/home/diploma/movies-explorer-api"
   },
   "repository": {
     "type": "git",
